@@ -5,7 +5,7 @@ import numpy as np
 from common import config
 # GPU에서 실행하려면 아래 주석을 해제하세요(CuPy 필요).
 # ===============================================
-# config.GPU = True
+config.GPU = True
 # ===============================================
 import pickle
 from common.trainer import Trainer
