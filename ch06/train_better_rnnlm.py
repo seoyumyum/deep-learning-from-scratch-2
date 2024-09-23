@@ -1,14 +1,16 @@
 # coding: utf-8
 import sys
 sys.path.append('..')
+import numpy as np
 from common import config
 # GPU에서 실행하려면 아래 주석을 해제하세요(CuPy 필요).
 # ==============================================
-# config.GPU = True
+config.GPU = True
 # ==============================================
+import pickle
 from common.optimizer import SGD
 from common.trainer import RnnlmTrainer
-from common.util import eval_perplexity, to_gpu
+from common.util import eval_perplexity, to_gpu, to_cpu
 from dataset import ptb
 from better_rnnlm import BetterRnnlm
 
@@ -65,3 +67,15 @@ for epoch in range(max_epoch):
 model.reset_state()
 ppl_test = eval_perplexity(model, corpus_test)
 print('테스트 퍼플렉서티: ', ppl_test)
+
+# 나중에 사용할 수 있도록 필요한 데이터 저장
+word_vecs = model.word_vecs
+if config.GPU:
+    word_vecs = to_cpu(word_vecs)
+params = {}
+params['word_vecs'] = word_vecs.astype(np.float16)
+params['word_to_id'] = word_to_id
+params['id_to_word'] = id_to_word
+pkl_file = 'BetterRnnlm.pkl'  # or 'skipgram_params.pkl'
+with open(pkl_file, 'wb') as f:
+    pickle.dump(params, f, -1)

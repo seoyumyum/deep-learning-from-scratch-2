@@ -49,7 +49,7 @@ class Trainer:
                 if (eval_interval is not None) and (iters % eval_interval) == 0:
                     avg_loss = total_loss / loss_count
                     elapsed_time = time.time() - start_time
-                    print('| 에폭 %d |  반복 %d / %d | 시간 %d[s] | 손실 %.2f'
+                    print('| epoch %d |  iter %d / %d | time %d[s] | avg_loss %.2f'
                           % (self.current_epoch + 1, iters + 1, max_iters, elapsed_time, avg_loss))
                     self.loss_list.append(float(avg_loss))
                     total_loss, loss_count = 0, 0
@@ -61,8 +61,8 @@ class Trainer:
         if ylim is not None:
             plt.ylim(*ylim)
         plt.plot(x, self.loss_list, label='train')
-        plt.xlabel('반복 (x' + str(self.eval_interval) + ')')
-        plt.ylabel('손실')
+        plt.xlabel('iter (x' + str(self.eval_interval) + ')')
+        plt.ylabel('loss')
         plt.show()
 
 
@@ -120,7 +120,7 @@ class RnnlmTrainer:
                 if (eval_interval is not None) and (iters % eval_interval) == 0:
                     ppl = np.exp(total_loss / loss_count)
                     elapsed_time = time.time() - start_time
-                    print('| 에폭 %d |  반복 %d / %d | 시간 %d[s] | 퍼플렉서티 %.2f'
+                    print('| epoch %d |  iter %d / %d | time %d[s] | perplexity %.2f'
                           % (self.current_epoch + 1, iters + 1, max_iters, elapsed_time, ppl))
                     self.ppl_list.append(float(ppl))
                     total_loss, loss_count = 0, 0
@@ -132,8 +132,8 @@ class RnnlmTrainer:
         if ylim is not None:
             plt.ylim(*ylim)
         plt.plot(x, self.ppl_list, label='train')
-        plt.xlabel('반복 (x' + str(self.eval_interval) + ')')
-        plt.ylabel('퍼플렉서티')
+        plt.xlabel('iteration (x' + str(self.eval_interval) + ')')
+        plt.ylabel('perplexity')
         plt.show()
 
 
